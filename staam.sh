@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 menu () {
     echo a. Input a Series. 
@@ -13,23 +13,53 @@ menu () {
     echo "choose from (a/b/c/d/e/f/g/h/i)"
 }
 
+input_nums(){
+    read -p "enter a series of numbers " nums
 
-main(){
+    numbers=($nums)
 
-  if [[ $# -ge 3 ]] && validate_numbers "$@"  ; then 
-    numbers=("$@") 
+    if $(validate_numbers ${numbers[@]}) ; then 
+        return 0 
+    else input_nums
+    fi
+}
+
+validate_numbers() {
+    local array=("$@")
+    
+    for value in "${array[@]}"; do
+        if ! [[ "$value" =~ ^[0-9]+$ ]]; then
+            return 1
+        fi
+    done
+    
+    return 0
+}
+
+main (){
+    if [[ $# -ge 3 ]] && validate_numbers "$@"  ; then 
+        numbers=("$@") 
     else 
-    echo "wrong input"
-   #ask for input numbers
+        echo "wrong input"
+        input_nums 
     fi 
- while true ; do
-    menu 
-    read choice
-    case $choise in 
-
-    esac
-
-  done
+    
+    while true ; do
+        menu
+        read choice
+        case $choice in 
+            a) input_nums ;; 
+            b) echo ${numbers[*]} ;;
+            c) echo ${numbers[*]} | tr ' ' '\n' | sort -n ;;
+            d) echo ${numbers[*]} | tr ' ' '\n' | sort -n | tail -n 1 ;;
+            e) echo ${numbers[*]} | tr ' ' '\n' | sort -n | head -n 1 ;;
+            f) echo ${numbers[*]} | tr ' ' '\n' | awk '{sum+=$1} END {print sum/NR}' ;;
+            g) echo ${#numbers[@]} ;;
+            h) echo ${numbers[*]} | tr ' ' '\n' | awk '{sum+=$1} END {print sum}' ;;
+            i) break ;;
+        esac
+        echo "______________________________________"
+    done 
 }
 
 main $@

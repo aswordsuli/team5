@@ -86,7 +86,7 @@ input_nums(){
         continue 
     else input_nums
     fi
-
+    
 }
 
 main (){
