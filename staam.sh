@@ -22,7 +22,7 @@ main(){
     echo "wrong input"
    #ask for input numbers
     fi 
-  while true ; do
+ while true ; do
     menu 
     read choice
     case $choise in 
