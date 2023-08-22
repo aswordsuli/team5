@@ -82,11 +82,11 @@ input_nums(){
 
     numbers=($nums)
 
-    if [[ $(validate_numbers ${numbers[@]}) ]] ; then 
+    if $(validate_numbers ${numbers[@]}) ; then 
         continue 
     else input_nums
     fi
-
+    
 }
 
 main (){
